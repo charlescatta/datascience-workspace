@@ -4,6 +4,8 @@ channels:
   - pytorch
   - fastai
 dependencies:
+  - python=3.7
+  - pip
   - nodejs
   - pytorch
   - torchvision
