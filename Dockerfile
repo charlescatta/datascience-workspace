@@ -33,7 +33,7 @@ ENV PATH=$PATH:/opt/conda/bin/
 
 COPY environment.yaml environment.yaml
 RUN conda env create -f ./environment.yaml
-RUN echo "source activate dl" > ~/.bashrc
+RUN echo "conda activate dl" > ~/.bashrc
 RUN source ~/.bashrc
 
 RUN jupyter nbextensions_configurator enable --user
