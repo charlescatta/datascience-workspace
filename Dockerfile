@@ -33,7 +33,7 @@ ENV PATH=$PATH:/opt/conda/bin/
 
 COPY environment.yaml environment.yaml
 RUN conda env create -f ./environment.yaml
-RUN conda activate dl
+RUN echo "source activate dl" > ~/.bashrc
 RUN source ~/.bashrc
 
 RUN jupyter nbextensions_configurator enable --user
@@ -44,4 +44,4 @@ WORKDIR /work
 RUN chmod -R a+w /work
 WORKDIR /work
 
-ENTRYPOINT cond activate dl && jupyter lab --ip=0.0.0.0 --no-browser
+ENTRYPOINT jupyter lab --ip=0.0.0.0 --no-browser
