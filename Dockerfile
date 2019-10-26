@@ -28,14 +28,13 @@ RUN curl -L https://repo.continuum.io/miniconda/Miniconda2-4.7.10-Linux-x86_64.s
   rm ./miniconda.sh && \
   /opt/conda/bin/conda install conda-build
 
-ENV PATH=$PATH:/opt/conda/bin/
 ENV USER scientist
+ENV PATH=$PATH:/opt/conda/bin/
 
 COPY environment.yaml environment.yaml
 RUN conda env create -f ./environment.yaml
-CMD conda activate dl
-RUN conda install jupyter
-CMD source ~/.bashrc
+RUN conda activate dl
+RUN source ~/.bashrc
 
 RUN jupyter nbextensions_configurator enable --user
 RUN jupyter nbextension enable code_prettify
@@ -45,4 +44,4 @@ WORKDIR /work
 RUN chmod -R a+w /work
 WORKDIR /work
 
-ENTRYPOINT jupyter lab --ip=0.0.0.0 --no-browser
+ENTRYPOINT cond activate dl && jupyter lab --ip=0.0.0.0 --no-browser
