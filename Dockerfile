@@ -1,4 +1,4 @@
-M nvidia/cuda:10.1-base-ubuntu18.04
+FROM nvidia/cuda:10.1-base-ubuntu18.04
 LABEL com.nvidia.volumes.needed="nvidia_driver"
 
 ENV LANG=C.UTF-8
