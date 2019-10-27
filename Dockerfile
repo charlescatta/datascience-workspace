@@ -34,7 +34,7 @@ RUN curl -L https://repo.continuum.io/miniconda/Miniconda2-4.7.10-Linux-x86_64.s
 WORKDIR /work
 
 ADD packages.yml packages.yml
-RUN conda install --yes -f ./packages.yml
+RUN conda env update -f packages.yml
 RUN conda clean --all -f -y
 
 RUN jupyter nbextensions_configurator enable --user
