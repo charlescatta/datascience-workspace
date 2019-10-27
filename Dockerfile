@@ -45,4 +45,4 @@ WORKDIR /work
 
 EXPOSE 8888
 
-ENTRYPOINT source activate fastai && jupyter lab --ip=0.0.0.0 --no-browser
+ENTRYPOINT source activate dl && jupyter lab --ip=0.0.0.0 --no-browser
