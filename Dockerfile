@@ -1,11 +1,11 @@
-FROM nvidia/cuda:10.1-cudnn7-runtime-ubuntu18.04
+FROM nvidia/cuda:10.1-base-ubuntu18.04
 
 ENV LANG C.UTF-8
 ENV SHELL=/bin/bash
 
 LABEL com.nvidia.volumes.needed="nvidia_driver"
 
-RUN echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
+RUN echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   build-essential \
@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   libjpeg-dev \
   zip \
   unzip \
-  libpng-dev &&\
+  libpng-dev && \
   rm -rf /var/lib/apt/lists/*
 
 ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
@@ -33,8 +33,8 @@ ENV PATH=$PATH:/opt/conda/bin/
 
 COPY environment.yaml environment.yaml
 RUN conda env create -f ./environment.yaml
-RUN echo "conda activate dl" > ~/.bashrc
-RUN source ~/.bashrc
+CMD echo "source activate dl" > ~/.bashrc
+CMD source ~/.bashrc
 
 RUN jupyter nbextensions_configurator enable --user
 RUN jupyter nbextension enable code_prettify
@@ -44,4 +44,4 @@ WORKDIR /work
 RUN chmod -R a+w /work
 WORKDIR /work
 
-ENTRYPOINT jupyter lab --ip=0.0.0.0 --no-browser
+ENTRYPOINT source activate fastai && jupyter lab --ip=0.0.0.0 --no-browser
