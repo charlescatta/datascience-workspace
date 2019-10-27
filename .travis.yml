@@ -1,0 +1,25 @@
+sudo: required
+
+services:
+  - docker
+
+env:
+  - IMAGE_NAME=charlescatta/dswp
+
+before_script:
+  - docker --version
+
+script:
+  - docker build -t "$IMAGE_NAME" .
+
+before_deploy:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - COMMIT_HASH="$(git rev-parse --short HEAD)"
+  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:latest"
+  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:${COMMIT_HASH}"
+
+deploy:
+  provider: script
+  script: docker push "${IMAGE_NAME}:latest" && docker push "${IMAGE_NAME}:${COMMIT_HASH}"
+  on:
+    branch: master
