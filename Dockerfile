@@ -33,18 +33,19 @@ RUN curl -L https://repo.continuum.io/miniconda/Miniconda2-4.7.10-Linux-x86_64.s
 
 WORKDIR /work
 
-ADD packages.yml packages.yml
-RUN conda env update -f packages.yml
-RUN conda clean --all -f -y
-
-RUN jupyter nbextensions_configurator enable --user
-RUN jupyter nbextension enable code_prettify
-RUN jupyter nbextension enable hinterland
+ADD environment.yml environment.yml
+RUN conda env update -f environment.yml
+RUN rm environment.yml
+RUN echo "source activate base" > ~/.bashrc
+RUN . activate base && \
+  jupyter nbextensions_configurator enable --user && \
+  jupyter nbextension enable code_prettify && \
+  jupyter nbextension enable hinterland
 
 RUN chmod -R a+w /work
 
 EXPOSE 8888
 
-ENTRYPOINT source activate dl && jupyter lab --ip=0.0.0.0 --no-browser
+ENTRYPOINT jupyter lab --ip=0.0.0.0 --no-browser
 
 

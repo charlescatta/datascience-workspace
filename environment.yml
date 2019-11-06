@@ -1,8 +1,10 @@
+name: base
 channels:
   - conda-forge
   - pytorch
   - fastai
 dependencies:
+  - pip
   - nodejs
   - pytorch
   - torchvision
