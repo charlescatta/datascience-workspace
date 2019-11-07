@@ -34,6 +34,8 @@ RUN curl -L https://repo.continuum.io/miniconda/Miniconda2-4.7.10-Linux-x86_64.s
 WORKDIR /work
 
 ADD environment.yml environment.yml
+# See: https://github.com/conda/conda/issues/8197
+RUN conda config --set channel_priority strict
 RUN conda env update -f environment.yml
 RUN rm environment.yml
 RUN echo "source activate base" > ~/.bashrc
