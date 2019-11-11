@@ -40,8 +40,7 @@ RUN conda env update -f environment.yml \
   && conda clean -afy \
   && find $CONDA_DIR -follow -type f -name '*.a' -delete \
   && find $CONDA_DIR -follow -type f -name '*.pyc' -delete \
-  && find $CONDA_DIR -follow -type f -name '*.js.map' -delete \
-  && find $CONDA_DIR/lib/python*/site-packages/bokeh/server/static -follow -type f -name '*.js' ! -name '*.min.js' -delete
+  && find $CONDA_DIR -follow -type f -name '*.js.map' -delete
 
 RUN rm environment.yml
 RUN echo "source activate base" > ~/.bashrc
