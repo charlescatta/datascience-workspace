@@ -4,6 +4,7 @@ channels:
   - pytorch
   - fastai
 dependencies:
+  - nomkl
   - pip
   - nodejs
   - pytorch
