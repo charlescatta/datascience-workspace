@@ -36,7 +36,7 @@ WORKDIR /work
 ADD environment.yml environment.yml
 # See: https://github.com/conda/conda/issues/8197
 RUN conda config --set channel_priority strict
-RUN conda env update -f environment.yml --freeze-installed \
+RUN conda env update -f environment.yml \
   && conda clean -afy \
   && find /opt/conda/ -follow -type f -name '*.a' -delete \
   && find /opt/conda/ -follow -type f -name '*.pyc' -delete \
