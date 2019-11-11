@@ -8,15 +8,15 @@ env:
 
 before_script:
   - docker --version
+  - docker pull "${IMAGE_NAME}:latest" || true
 
 script:
-  - docker build -t "$IMAGE_NAME" .
+  - COMMIT_HASH="$(git rev-parse --short HEAD)"
+  - docker build --cache-from "${IMAGE_NAME}:latest" --tag "${IMAGE_NAME}:${COMMIT_HASH}" .
 
 before_deploy:
   - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
-  - COMMIT_HASH="$(git rev-parse --short HEAD)"
-  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:latest"
-  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:${COMMIT_HASH}"
+  - docker tag "${IMAGE_NAME}:${COMMIT_HASH}" "${IMAGE_NAME}:latest"
 
 deploy:
   provider: script
