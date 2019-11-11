@@ -36,7 +36,12 @@ WORKDIR /work
 ADD environment.yml environment.yml
 # See: https://github.com/conda/conda/issues/8197
 RUN conda config --set channel_priority strict
-RUN conda env update -f environment.yml
+RUN conda env update -f environment.yml \
+  && conda clean -afy \
+  && find $CONDA_DIR -follow -type f -name '*.a' -delete \
+  && find $CONDA_DIR -follow -type f -name '*.pyc' -delete \
+  && find $CONDA_DIR -follow -type f -name '*.js.map' -delete
+
 RUN rm environment.yml
 RUN echo "source activate base" > ~/.bashrc
 RUN . activate base && \
